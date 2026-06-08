@@ -5,6 +5,9 @@ import * as Cesium from "cesium";
 
 import "cesium/Build/Cesium/Widgets/widgets.css";
 
+import logoOrbitCycle from "../assets/logo-orbitcycle.jpeg";
+
+
 export default function OrbitCycleViewer() {
     const cesiumContainer = useRef(null);
 
@@ -30,6 +33,127 @@ export default function OrbitCycleViewer() {
             new Cesium.ScreenSpaceEventHandler(
                 viewer.scene.canvas
             );
+
+        const serviceSatellitePosition =
+            new Cesium.Cartesian3(
+                6778137,
+                0,
+                0
+            );
+
+        const serviceSatellite =
+            viewer.entities.add({
+                id: "SERVICE_SAT",
+
+                position: serviceSatellitePosition,
+
+                billboard: {
+                    image: "./satellite.png",
+                    width: 48,
+                    height: 48,
+                    verticalOrigin: Cesium.VerticalOrigin.CENTER
+                },
+
+                label: {
+                    text: "Coletor"
+                }
+            });
+
+        function animateCapture(
+            satellite,
+            targetPosition
+        ) {
+
+            const start =
+                Cesium.JulianDate.now();
+
+            const stop =
+                Cesium.JulianDate.addSeconds(
+                    start,
+                    120,
+                    new Cesium.JulianDate()
+                );
+
+            const startPosition =
+                satellite.position.getValue(
+                    viewer.clock.currentTime
+                );
+
+            const positionProperty =
+                new Cesium.SampledPositionProperty();
+
+            for (let i = 0; i <= 20; i++) {
+
+                const fraction = i / 20;
+
+                const interpolated =
+                    Cesium.Cartesian3.lerp(
+                        startPosition,
+                        targetPosition,
+                        fraction,
+                        new Cesium.Cartesian3()
+                    );
+
+                positionProperty.addSample(
+                    Cesium.JulianDate.addSeconds(
+                        start,
+                        fraction * 120,
+                        new Cesium.JulianDate()
+                    ),
+                    interpolated
+                );
+            }
+
+            satellite.position =
+                positionProperty;
+
+            satellite.path =
+                new Cesium.PathGraphics({
+                    width: 3,
+                    material: Cesium.Color.CYAN
+                });
+
+            viewer.clock.startTime =
+                start.clone();
+
+            viewer.clock.stopTime =
+                stop.clone();
+
+            viewer.clock.currentTime =
+                start.clone();
+
+            viewer.clock.multiplier = 10;
+            viewer.clock.shouldAnimate = true;
+
+            const listener = () => {
+
+                if (
+                    Cesium.JulianDate.greaterThanOrEquals(
+                        viewer.clock.currentTime,
+                        stop
+                    )
+                ) {
+
+                    viewer.clock.onTick.removeEventListener(
+                        listener
+                    );
+
+                    satellite.position =
+                        new Cesium.ConstantPositionProperty(
+                            serviceSatellitePosition
+                        );
+
+                    satellite.path = undefined;
+                }
+            };
+
+            viewer.clock.onTick.addEventListener(
+                listener
+            );
+
+        }
+
+
 
         async function loadDebris() {
             try {
@@ -97,6 +221,17 @@ export default function OrbitCycleViewer() {
                 const entity = pickedObject.id;
 
                 await loadCaptureEstimate(entity.id);
+
+                const debrisPosition =
+                    entity.position.getValue(
+                        Cesium.JulianDate.now()
+                    );
+
+                animateCapture(
+                    serviceSatellite,
+                    debrisPosition
+                );
+
             },
             Cesium.ScreenSpaceEventType.LEFT_CLICK
         );
@@ -123,7 +258,8 @@ export default function OrbitCycleViewer() {
             />
 
             <div className="capture-panel">
-                <h2>Análise de Captura</h2>
+                <img src={logoOrbitCycle}></img>
+                <h2 styles={{paddingTop:"10px"}}>Análise de Captura</h2>
 
                 {!captureData && (
                     <p>
