@@ -255,11 +255,18 @@ export default function OrbitCycleViewer() {
                     width: "100%",
                     height: "100vh"
                 }}
-            />
+            >
+                <img style={{
+                    position: "fixed",
+                    right: "20px",
+                    bottom: "20px",
+                    width: "200px",
+                    zIndex: 9999
+                }} src={logoOrbitCycle}></img>
+            </div>
 
             <div className="capture-panel">
-                <img src={logoOrbitCycle}></img>
-                <h2 styles={{paddingTop:"10px"}}>Análise de Captura</h2>
+                <h2>Análise de Captura</h2>
 
                 {!captureData && (
                     <p>
