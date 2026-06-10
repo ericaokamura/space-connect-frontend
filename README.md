@@ -1,16 +1,46 @@
-# React + Vite
+# OrbitCycle
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Uma aplicação frontend baseada em ReactJS e CesiumJS para visualização interativa em 3D de satélites e detritos espaciais em órbita ao redor da Terra.
 
-Currently, two official plugins are available:
+## 📋 Visão Geral
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+OrbitCycle oferece visualização e rastreamento em tempo real de objetos orbitais em uma interface de globo 3D dinâmica. Construído com tecnologias web modernas, permite aos usuários explorar trajetórias de satélites, monitorar detritos espaciais e compreender mecânica orbital através de uma experiência intuitiva e interativa.
 
-## React Compiler
+## ✨ Principais Funcionalidades
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Visualização 3D em Tempo Real**: Globo interativo alimentado por CesiumJS
+- **Rastreamento de Satélites**: Rastreie satélites ativos e suas órbitas
+- **Monitoramento de Detritos Espaciais**: Visualize e rastreie detritos espaciais
+- **Informações Orbitais**: Dados detalhados sobre parâmetros orbitais e propriedades de objetos
+- **Controles Interativos**: Zoom, pan e rotação do globo perfeita
+- **Busca e Filtro**: Encontre satélites e objetos específicos rapidamente
+- **Otimizado para Performance**: Renderização eficiente para grandes conjuntos de dados
 
-## Expanding the ESLint configuration
+## 🛠 Tecnologias
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **Frontend**: ReactJS
+- **Visualização 3D**: CesiumJS
+- **Estilo**: CSS3
+- **Ferramenta de Build**: Vite/Webpack
+- **Gerenciador de Pacotes**: npm/yarn
+
+
+## 🚀 Instalação
+
+```bash
+# Clone o repositório
+git clone https://github.com/ericaokamura/space-connect-frontend
+cd space-connect-frontend
+
+# Instale as dependências
+npm install
+```
+
+## 🏃 Executando Localmente
+
+```bash
+# Inicie o servidor de desenvolvimento
+npm run dev
+```
+
+A aplicação estará disponível em `http://localhost:5173`
